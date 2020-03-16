@@ -47,21 +47,17 @@ public class Transaction extends JFrame implements ActionListener{
 		b3.setBackground(Color.black);
 		b3.setForeground(Color.white);
 		
-		b4=new JButton("MINI STATEMENT");
+		b4=new JButton("PIN CHANGE");
 		b4.setBackground(Color.black);
 		b4.setForeground(Color.white);
 		
-		b5=new JButton("PIN CHANGE");
+		b5=new JButton("BALANCE ENQUIRY");
 		b5.setBackground(Color.black);
 		b5.setForeground(Color.white);
 		
-		b6=new JButton("BALANCE ENQUIRY");
+		b6=new JButton("EXIT");
 		b6.setBackground(Color.black);
 		b6.setForeground(Color.white);
-		
-		b7=new JButton("EXIT");
-		b7.setBackground(Color.black);
-		b7.setForeground(Color.white);
 		
 		lb1.setBounds(60, 40, 500, 100);
 		add(lb1);
@@ -84,16 +80,12 @@ public class Transaction extends JFrame implements ActionListener{
 		b6.setBounds(300,300,220,50);
 		add(b6);
 		
-		b7.setBounds(200, 370, 220, 50);
-		add(b7);
-		
 		b1.addActionListener(this);
 		b2.addActionListener(this);
 		b3.addActionListener(this);
 		b4.addActionListener(this);
 		b5.addActionListener(this);
 		b6.addActionListener(this);
-		b7.addActionListener(this);
 		
 		getContentPane().setBackground(Color.white);
 		setSize(600,550);
@@ -121,54 +113,10 @@ public class Transaction extends JFrame implements ActionListener{
 		}
 		else if(ae.getSource()==b4)
 		{
-			String s = JOptionPane.showInputDialog(null,"Enter the pin");
-			int pin = Integer.parseInt(s);
-			try {
-			String sql="Select * from bank where pin=?";
-			ps=connect.prepareStatement(sql);
-			ps.setInt(1, pin);
-			ResultSet rs = ps.executeQuery();
-			ResultSetMetaData rsmt=rs.getMetaData();
-			int c= rsmt.getColumnCount();
-			Vector column = new Vector(c);
-			for(int i=2;i<=c;i++)
-			{
-				column.add(rsmt.getColumnName(c));
-			}
-			Vector data= new Vector();
-			Vector row = new Vector();
-			while(rs.next())
-			{
-				new Vector(c);
-				for(int i=2;i<c;i++)
-				{
-					data.add(rs.getInt(i));
-				}
-				row.add(data);
-			}
-			if(rs.previous())
-			{
-			System.out.println(row);
-			t = new JTable(row,column);
-			this.add(new JScrollPane(t));
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(null, "No output");
-			}
-			}
-			catch( Exception e)
-			{
-				JOptionPane.showMessageDialog(null, "Internal Error");
-				e.printStackTrace();
-			}
-		}
-		else if(ae.getSource()==b5)
-		{
 			new Pin().setVisible(true);
 			setVisible(false);
 		}
-		else if(ae.getSource()==b6)
+		else if(ae.getSource()==b5)
 		{
 			String s = JOptionPane.showInputDialog(null, "Enter your Pin");
 			int pin=Integer.parseInt(s);
@@ -195,7 +143,7 @@ public class Transaction extends JFrame implements ActionListener{
 				e.printStackTrace();
 			}
 		}
-		else if(ae.getSource()==b7)
+		else if(ae.getSource()==b6)
 		{
 			System.exit(0);
 		}
