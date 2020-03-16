@@ -95,9 +95,65 @@ public class Pin extends JFrame implements ActionListener{
 		
 		if(ae.getSource()==b2)
 		{
-			
 			new Transaction().setVisible(true);
 			setVisible(false);
+		}
+		else
+		{
+		int oldPin = Integer.parseInt(pf1.getText());
+		int newPin = Integer.parseInt(pf2.getText());
+		int confirmPin = Integer.parseInt(pf3.getText());
+		
+		if(confirmPin!=newPin)
+		{
+			JOptionPane.showMessageDialog(null, "Password not match");
+			pf1.setText("");
+			pf2.setText("");
+			pf3.setText("");
+		}
+		else if(ae.getSource()==b1)
+		{
+			int confirm=JOptionPane.showConfirmDialog(null,"Do you want to change the pin");
+			if(confirm==0)
+			{
+			Connection connect = DBConnection.getConnection();
+			String sql1,sql2,sql3,sql4;
+			PreparedStatement ps;
+			try {
+				sql1="Select * from signup3 where pin=?";
+				ps = connect.prepareStatement(sql1);
+				ps.setInt(1, oldPin);
+				boolean b=ps.execute();
+				
+				sql2 ="Update bank set pin =? where pin=?";
+				ps = connect.prepareStatement(sql2);
+				ps.setInt(1, newPin);
+				ps.setInt(2, oldPin);
+				int j =ps.executeUpdate();
+				
+				sql3 ="Update login set pin=? where pin=?";
+				ps = connect.prepareStatement(sql3);
+				ps.setInt(1, newPin);
+				ps.setInt(2, oldPin);
+				int k =ps.executeUpdate();
+				
+				sql4="Update signUp3 set pin=? where pin=?";
+				ps = connect.prepareStatement(sql4);
+				ps.setInt(1, newPin);
+				ps.setInt(2, oldPin);
+				int l =ps.executeUpdate();
+				
+				if(b==true && j!=0 && k!=0 && l!=0)
+				{
+					JOptionPane.showMessageDialog(null, "Pin Changed Successfully");
+				}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		}	
 		}
 	}
 
