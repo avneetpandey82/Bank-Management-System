@@ -19,7 +19,7 @@ public class FastCash extends JFrame implements ActionListener{
 	JButton b1,b2,b3,b4,b5,b6;
 	
 	public FastCash() {
-		
+		// Add dummy comment
 		super("                                                                  FAST CASH");
 		
 		
